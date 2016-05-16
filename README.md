@@ -1,12 +1,15 @@
-# phantomwebcrawler
+# Phantomwebcrawler
 
 Crawls web pages using Headless Phantom Browser
 
-Dependencies,
+<bold>Dependencies,</bold>
 
- Node-Phantom
- Zombie-Phantom
- Underscore
- Async
- AngularJS
- Socker.io
+<ul>
+
+<li> Node-Phantom </li>
+<li> Zombie-Phantom </li>
+<li> Underscore</li>
+<li> Async</li>
+<li> AngularJS</li>
+<li> Socker.io</li>
+</ul>
