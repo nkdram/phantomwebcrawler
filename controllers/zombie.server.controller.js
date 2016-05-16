@@ -57,6 +57,7 @@ exports.crawlUsingSocket = function(data, socket, callBack){
 // Current this library does not support promises, but you can use async.series
 // to get something similar...
 
+    socket.emit('log',{message: 'Emulating Browser'});
     socket.emit('log',{message: 'Opening Browser'});
     async.series([
         function(done) { browser.visit( data.url, done); },
@@ -76,7 +77,7 @@ exports.crawlUsingSocket = function(data, socket, callBack){
                 socket.emit('log',{message: 'Navigating to Page'});
                 browser.html( data.selector , function (strHtml) {
                     browser.close();
-                    socket.emit('log',{message: ' Querying Selecor and Rerieving HTML '});
+                    socket.emit('log',{message: 'Querying Selector and Retrieving HTML '});
                     callBack({
                         message: 'Crawl Done',
                         html: strHtml

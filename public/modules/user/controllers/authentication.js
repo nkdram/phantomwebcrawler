@@ -8,6 +8,10 @@
             // If user is signed in then redirect back home
             if ($scope.authentication.user)
                 $location.path('/dashboard');
+            else
+            {
+                $location.path('/signin');
+            }
 
             $scope.signin = function () {
                 $http.post('/auth/signin', $scope.credentials).success(function (response) {
