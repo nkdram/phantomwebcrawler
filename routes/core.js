@@ -4,6 +4,7 @@ var passport  = require('passport');
 
 module.exports = function(app) {
     var core = require('../controllers/core.controller');
+    var crawl = require('../controllers/zombie.server.controller');
 
     app.use(function (req, res, next) {
         if (req.query.access_token) {
@@ -30,4 +31,5 @@ module.exports = function(app) {
     });
 
     app.route('/').get(core.index);
+    app.route('/crawl').get(crawl.crawlUsingZombie);
 };

@@ -35,9 +35,10 @@ module.exports = {
                 'public/lib/angular-busy/dist/angular-busy.min.js',
                 'public/lib/jquery/dist/jquery.js',
                 'public/lib/ng-table/dist/ng-table.js',
-                'https://js.arcgis.com/4.0beta3/',
-                'public/lib/angular-esri-map/dist/angular-esri-map.js',
-                'public/lib/angular-ui-select/dist/select.min.js'
+                //'https://js.arcgis.com/4.0beta3/',
+                //'public/lib/angular-esri-map/dist/angular-esri-map.js',
+                'public/lib/angular-ui-select/dist/select.min.js',
+                'public/lib/socket.io-client/socket.io.js'
             ]
         },
         css: [
@@ -80,9 +81,10 @@ module.exports = {
                 'public/lib/dialogs/dist/dialogs.min.js',
                 'public/lib/jquery/dist/jquery.min.js',
                 'public/lib/ng-table/dist/ng-table.min.js',
-                'https://js.arcgis.com/4.0beta3/',
-                'public/lib/angular-esri-map/dist/angular-esri-map.js',
-                'public/lib/angular-ui-select/dist/select.min.js'
+               // 'https://js.arcgis.com/4.0beta3/',
+               // 'public/lib/angular-esri-map/dist/angular-esri-map.js',
+                'public/lib/angular-ui-select/dist/select.min.js',
+                'public/lib/socket.io-client/socket.io.js'
             ]
         },
         css: [

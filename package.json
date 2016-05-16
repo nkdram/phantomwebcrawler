@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "private": true,
   "dependencies": {
-
+    "Async": "1.5.x",
     "body-parser": "1.14.2",
     "complexity":"0.0.3",
     "compression": "1.6.1",
@@ -50,7 +50,8 @@
     "multer": "0.1.*",
     "glob": "*",
     "lodash": "*",
-    "xls-to-json": "0.3.2"
+    "xls-to-json": "0.3.2",
+    "underscore": "^1.7.0"
   },
   "devDependencies": {
     "bower": "1.7.7",
