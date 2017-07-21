@@ -19,7 +19,8 @@ module.exports = {
                 'public/lib/dialogs/dist/dialogs.min.css',
                 'public/lib/angular-busy/dist/angular-busy.min.css',
                 'public/lib/ng-table/dist/ng-table.css',
-                'public/lib/angular-ui-select/dist/select.min.css'
+                'public/lib/angular-ui-select/dist/select.min.css',
+                '//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css'
             ],
             js: [
                 'public/lib/angular/angular.js',
@@ -38,7 +39,8 @@ module.exports = {
                 //'https://js.arcgis.com/4.0beta3/',
                 //'public/lib/angular-esri-map/dist/angular-esri-map.js',
                 'public/lib/angular-ui-select/dist/select.min.js',
-                'public/lib/socket.io-client/socket.io.js'
+                'public/lib/socket.io-client/socket.io.js',
+                '//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js'
             ]
         },
         css: [
@@ -65,7 +67,8 @@ module.exports = {
                 'public/lib/angular-ui-select/dist/select.min.css',
                 'public/lib/angular-loading-bar/build/loading-bar.min.css',
                 'public/lib/bootstrap-daterangepicker/daterangepicker.css',
-                'public/lib/angular-ui-select/dist/select.min.css'
+                'public/lib/angular-ui-select/dist/select.min.css',
+                '//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css'
             ],
             js: [
                 'public/lib/blob-polyfill/blob.min.js',
@@ -84,7 +87,8 @@ module.exports = {
                // 'https://js.arcgis.com/4.0beta3/',
                // 'public/lib/angular-esri-map/dist/angular-esri-map.js',
                 'public/lib/angular-ui-select/dist/select.min.js',
-                'public/lib/socket.io-client/socket.io.js'
+                'public/lib/socket.io-client/socket.io.js',
+                '//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js'
             ]
         },
         css: [

@@ -44,34 +44,20 @@ exports.crawlUsingZombie = function(req,res){
 };
 
 exports.crawlUsingSocket = function(data, socket, callBack){
-    //var Browser = require('../lib/zombie');
     var async = require('async');
     const Browser = require('phantom');
 
-    /*var browser = new Browser({
-        site: data.site,
-        debug: true,
-        runScripts: false,
-        userAgent: data.userAgent? data.userAgent : 'Mozilla/5.0 (Windows NT 6.1; WOW64; Trident/7.0; rv:11.0) like Gecko'
-    });*/
-
-// Current this library does not support promises, but you can use async.series
-// to get something similar...
-
     socket.emit('log',{message: 'Emulating Browser'});
     socket.emit('log',{message: 'Opening Browser'});
-
     Browser.create(['--ignore-ssl-errors=no'], {logLevel: 'error'})
         .then(function (instance) {
             var processId = instance.process.pid;
             console.log("===================> instance: ", processId);
             var phantom = instance;
             var pageIns = null;
-            console.log(data);
             phantom.createPage().then(function (page,error) {
                 var url = data.url;
-                socket.emit('log',{message: 'Logging in Success'});
-                console.log("Page Opened",page);
+                socket.emit('log',{message: 'Opening Page'});
                 pageIns = page;
                 return page.open(url);
             }).catch(function(e) {
@@ -82,18 +68,82 @@ exports.crawlUsingSocket = function(data, socket, callBack){
             }).catch(function(e) {
                 socket.emit('log',{message: e});
             }).then(function(jp){
-                console.log("Injected JS",data);
-                pageIns.invokeMethod('evaluate', function(sel) {
+                /*pageIns.invokeMethod('evaluate', function(sel) {
                     console.log('TES', sel);
                     var strHtml='';
                     var selector = "'"+sel+"'";
                     console.log(selector);
-                    $('#page-top').each(function() {
+                    $(selector).each(function() {
                         strHtml+= $(this).html();
                     });
                     return {
                         html: strHtml
                     };
+                    /!*console.log(sel);
+                    *!/
+                }, data.selector).then(function(result) {
+                    socket.emit('log',{message: 'Crawl Done'});
+                    callBack({
+                        message: 'Crawl Done',
+                        html: result.html
+                    });
+                    phantom.exit();
+                });*/
+
+                function evaluate(page, func) {
+                    var args = [].slice.call(arguments, 2);
+                    var fn = "function() { return (" + func.toString() + ").apply(this, " + JSON.stringify(args) + ");}";
+                    return page.evaluate(fn);
+                };
+                evaluate(pageIns, function(sel) {
+                    // this code has now has access to foo
+                    //var json = $.parseJSON(sel);
+                    //var tagVals = [];
+                    try {
+                        var json = [{
+                            "selector" :".team-member",
+                            "html" : false,
+                            "children" :
+                                [
+                                    {
+                                        "selector" :"a",
+                                        "html" : false,
+                                        "children" :  [],
+                                        "attr" : "href"
+                                    },
+                                    {
+                                        "selector" :"p.text-muted",
+                                        "html" : true,
+                                        "children" :  [],
+                                        "attr" : "href"
+                                    }
+                                ]
+                        }];
+                        var tagVals = [];
+                        $.each(json, function (index, parent) {
+
+                            if (parent && parent.selector) {
+                                var tags = $(parent.selector);
+                                for(var i=0;i<tags.length;i++){
+                                    tagVals.push({
+                                        selector : parent.selector,
+                                        html : $(tags[i]).html()
+                                    });
+                                }
+
+
+                            }
+                        });
+                        return {
+                            html: JSON.stringify(tagVals)
+                        };
+                    }
+                    catch(ex){
+                        return {
+                            html: ex
+                        };
+                    }
+
                 }, data.selector).then(function(result) {
                     socket.emit('log',{message: 'Crawl Done'});
                     callBack({
@@ -102,36 +152,9 @@ exports.crawlUsingSocket = function(data, socket, callBack){
                     });
                     phantom.exit();
                 });
+
+
             });
         });
 
-
-
-
-   /* async.series([
-        function(done) { browser.visit( data.url, done); }
-    ], function() {
-        console.log('Drilling down the Url');
-        //socket.emit('log',{message: 'Logging in'});
-        async.series([
-            function(done) { browser.visit(data.url, done); }
-        ], function() {
-            console.log('Sec Series!');
-            socket.emit('log',{message: 'Logging in Success'});
-            browser.page.open(data.url, function(status) {
-                console.log('Status: ' + status);
-                socket.emit('log',{message: 'Navigating to Page'});
-                browser.html( data.selector , function (strHtml) {
-                    browser.close();
-                    socket.emit('log',{message: 'Querying Selector and Retrieving HTML '});
-                    callBack({
-                        message: 'Crawl Done',
-                        html: strHtml
-                    });
-                });
-            });
-
-        });
-
-    });*/
 };

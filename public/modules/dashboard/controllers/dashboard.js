@@ -9,14 +9,15 @@
             $scope.init = function(){
                 $scope.data = {};
                 $scope.logs = [];
+                $scope.crawlStatus = false;
                 $scope.html = {init : '<div class="col-md-6 col-md-offset-3">' +
                 ' <span class="badge col-md-offset-3"> HTML WILL LOAD HERE </span> </div>',rawHtml:''};
-                $scope.crawlStatus = false;
-
             };
 
             $scope.crawlSite = function()
             {
+                $scope.html = {init : '<div class="col-md-6 col-md-offset-3">' +
+                ' <span class="badge col-md-offset-3"> HTML WILL LOAD HERE </span> </div>',rawHtml:''};
                 $scope.crawlStatus = true;
                 socket.emit("crawl", $scope.data);
             };
@@ -31,14 +32,14 @@
                 $scope.crawlStatus = false;
                 $scope.logs = [];
                // console.log(  data.result.html );
-                $scope.html =  { rawHtml : data.result.html };
+                var obj = JSON.parse(data.result.html);
+                var pretty = JSON.stringify(obj, undefined, 4);
+                $scope.html =  { rawHtml : pretty };
                 if(!$scope.$$phase)
                 {
                     $scope.$apply();
                 }
             });
-
-
 
             socket.on("log", function(data){
                 console.log('Inside Log');
@@ -48,6 +49,12 @@
                     $scope.$apply();
                 }
             });
+
+            $scope.focusOut = function () {
+                var obj = JSON.parse($scope.data.selector);
+                var pretty = JSON.stringify(obj, undefined, 4);
+                $scope.data.selector = pretty;
+            }
     }])
 })();
 

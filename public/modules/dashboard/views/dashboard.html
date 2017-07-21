@@ -13,17 +13,14 @@
                                         class="btn btn-warning pull-right">Clear Crawl</button>
                                 <br style="clear:both">
                                 <h3 style="margin-bottom: 25px; text-align: center;">Enter URL to Crawl</h3>
-                                <!--<div class="form-group">
-                                    <input type="text" class="form-control" id="site" ng-model="data.site"
-                                           name="site" placeholder="Site URL" required>
-                                </div>-->
+
                                 <div class="form-group">
                                     <input type="text" class="form-control" id="url" name="url" ng-model="data.url"
                                            placeholder="Page Url" required>
                                 </div>
                                 <div class="form-group">
-                                    <input type="text" class="form-control" id="selector" name="selector" ng-model="data.selector"
-                                           placeholder="Selector" required>
+                                    <textarea type="text" class="form-control" id="selector" name="selector" ng-model="data.selector"
+                                           placeholder="Type Json" ng-blur="focusOut()"  required></textarea>
                                 </div>
                                 <div class="form-group">
                                     <input type="text" class="form-control" id="userAgent" ng-model="data.userAgent"
@@ -52,9 +49,7 @@
         <div class="col-md-10 col-md-offset-1" >
             <div ng-bind-html="html.init | to_trusted">
             </div>
-            <code>
-                {{html.rawHtml}}
-            </code>
+            <pre ng-show="!html.init"><code class="json">{{html.rawHtml}}</code></pre>
         </div>
     </div>
 </section>
