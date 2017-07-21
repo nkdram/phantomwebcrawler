@@ -3,8 +3,9 @@
 
         <div class="col-md-10 col-md-offset-1" ng-show="!crawlStatus">
             <div class="content-box">
-                <h2> Crawl URL</h2>
+                <!--<h2> Crawl URL</h2>-->
 
+                <div class="row">
                     <div class="col-md-6 col-md-offset-3">
                         <div class="form-area">
                             <form role="form">
@@ -32,7 +33,14 @@
                         </div>
                     </div>
                 </div>
+                <div class="row">
+                    <div class="col-md-6 col-md-offset-3">
+                        <h4>Please use below Json format to crawl a website - [ Documentation is in progress .. :) ]</h4>
+                        <pre><code class="json">{{initJSON()}}</code></pre>
+                    </div>
+                </div>
             </div>
+        </div>
 
         <div class="col-md-10 col-md-offset-1" ng-show="crawlStatus">
             <strong> Crawl Status </strong>

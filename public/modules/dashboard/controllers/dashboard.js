@@ -54,6 +54,28 @@
                 var obj = JSON.parse($scope.data.selector);
                 var pretty = JSON.stringify(obj, undefined, 4);
                 $scope.data.selector = pretty;
+            };
+
+            $scope.initJSON = function() {
+               var json = [{
+                    "selector": ".team-member",
+                    "html": false,
+                    "children": [
+                        {
+                            "selector": "a",
+                            "html": false,
+                            "children": [],
+                            "attr": "href"
+                        },
+                        {
+                            "selector": "p.text-muted",
+                            "html": true,
+                            "children": [],
+                            "attr": "href"
+                        }
+                    ]
+                }];
+                return JSON.stringify(json, undefined, 4);
             }
     }])
 })();
