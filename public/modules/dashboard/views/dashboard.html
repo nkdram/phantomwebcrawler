@@ -50,8 +50,11 @@
     </div>
     <div class="row">
         <div class="col-md-10 col-md-offset-1" >
-            <div ng-bind-html="html.rawHtml | to_trusted">
+            <div ng-bind-html="html.init | to_trusted">
             </div>
+            <code>
+                {{html.rawHtml}}
+            </code>
         </div>
     </div>
 </section>

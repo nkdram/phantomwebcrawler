@@ -57,13 +57,20 @@ var sequelize = new Sequelize(match[5], match[1], match[2], {
     port:     match[4],
     host:     match[3],
     logging: false,
-    dialectOptions: {
-        ssl: true
-    },
     define: {
     timestamps: false
+    },
+    dialectOptions: {
+        ssl: true
     }
 });
+console.log(config);
+/*var sequelize = new Sequelize(config.database, config.username, config.password, {
+    host: config.host,
+    port: 5432 ,
+    dialect: 'postgres'
+});*/
+
 
 sequelize
     .authenticate()
@@ -71,7 +78,7 @@ sequelize
         console.log('Database connected.');
     })
     .catch(function (err) {
-        console.error('Error: Unable to connect to the database.'+ err);
+        console.error('Error: Unable to connect to the database.');
     })
     .done();
 

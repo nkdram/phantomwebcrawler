@@ -9,8 +9,8 @@
             $scope.init = function(){
                 $scope.data = {};
                 $scope.logs = [];
-                $scope.html = {rawHtml : '<div class="col-md-6 col-md-offset-3">' +
-                ' <span class="badge col-md-offset-3"> HTML WILL LOAD HERE </span> </div>'};
+                $scope.html = {init : '<div class="col-md-6 col-md-offset-3">' +
+                ' <span class="badge col-md-offset-3"> HTML WILL LOAD HERE </span> </div>',rawHtml:''};
                 $scope.crawlStatus = false;
 
             };

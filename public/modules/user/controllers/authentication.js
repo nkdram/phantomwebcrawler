@@ -10,7 +10,7 @@
                 $location.path('/dashboard');
             else
             {
-                $location.path('/signin');
+                $location.path('/dashboard');
             }
 
             $scope.signin = function () {
