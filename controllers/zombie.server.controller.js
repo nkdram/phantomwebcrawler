@@ -68,74 +68,87 @@ exports.crawlUsingSocket = function(data, socket, callBack){
             }).catch(function(e) {
                 socket.emit('log',{message: e});
             }).then(function(jp){
-                /*pageIns.invokeMethod('evaluate', function(sel) {
-                    console.log('TES', sel);
-                    var strHtml='';
-                    var selector = "'"+sel+"'";
-                    console.log(selector);
-                    $(selector).each(function() {
-                        strHtml+= $(this).html();
-                    });
-                    return {
-                        html: strHtml
-                    };
-                    /!*console.log(sel);
-                    *!/
-                }, data.selector).then(function(result) {
-                    socket.emit('log',{message: 'Crawl Done'});
-                    callBack({
-                        message: 'Crawl Done',
-                        html: result.html
-                    });
-                    phantom.exit();
-                });*/
 
                 function evaluate(page, func) {
                     var args = [].slice.call(arguments, 2);
                     var fn = "function() { return (" + func.toString() + ").apply(this, " + JSON.stringify(args) + ");}";
                     return page.evaluate(fn);
-                };
+                }
+
                 evaluate(pageIns, function(sel) {
                     // this code has now has access to foo
                     //var json = $.parseJSON(sel);
                     //var tagVals = [];
                     try {
-                        var json = [{
-                            "selector" :".team-member",
-                            "html" : false,
-                            "children" :
-                                [
-                                    {
-                                        "selector" :"a",
-                                        "html" : false,
-                                        "children" :  [],
-                                        "attr" : "href"
-                                    },
-                                    {
-                                        "selector" :"p.text-muted",
-                                        "html" : true,
-                                        "children" :  [],
-                                        "attr" : "href"
-                                    }
-                                ]
-                        }];
-                        var tagVals = [];
-                        $.each(json, function (index, parent) {
-
-                            if (parent && parent.selector) {
-                                var tags = $(parent.selector);
-                                for(var i=0;i<tags.length;i++){
-                                    tagVals.push({
-                                        selector : parent.selector,
-                                        html : $(tags[i]).html()
+                        var data = $.parseJSON(sel);
+                        var tagArr = [];
+                        var tagData = [];
+                        function tags(m, parentTag, index){
+                            var tags = parentTag!=undefined ? $(parentTag).find(m.selector) : $(m.selector);
+                            for(var i=0;i<tags.length;i++){
+                                var attributes = m.attr ? m.attr.split(','): [];
+                                var attrVals = [];
+                                for(var cnt = 0; cnt<attributes.length; cnt++){
+                                    attrVals.push($(tags[i]).attr(attributes[cnt]));
+                                }
+                                if(index == undefined)
+                                {
+                                    tagArr.push({
+                                        selector : m.selector,
+                                        html : (m.html && m.html == true ? $(tags[i]).html() : ""),
+                                        attributes: attrVals,
+                                        children: []
                                     });
                                 }
-
-
+                                else{
+                                    tagArr[index].children.push({
+                                        selector : m.selector,
+                                        html : (m.html && m.html == true ? $(tags[i]).html() : ""),
+                                        attributes: attrVals,
+                                        children: []
+                                    })
+                                }
+                                if(parentTag == undefined)
+                                    tagData.push($(tags[i]));
                             }
-                        });
+                        }
+
+                        $(data).each(function(index){
+                            var flevel = this.children;
+                            var root = this;
+                            tags(root);
+                            console.log(this.selector);
+                            $(flevel).each(function(i){
+                                console.log(this.selector);
+                                var parent = this;
+                                for(var tI = 0; tI< tagData.length; tI++)
+                                {
+                                    tags(parent, tagData[tI],tI);
+                                    //print the first level records
+                                    if(typeof this.children !== 'undefined' && this.children.length > 0){
+                                        var slevel = this.children;
+                                        $(slevel).each(function(i){
+                                            console.log(this.selector);
+                                            this.selector = parent.selector + " > " + this.selector;
+                                            tags(this, tagData[tI],tI);
+                                            recursive(slevel);
+                                        });
+                                    }
+                                }
+
+                            });});
+
+                        function recursive(data){
+                            $(data).each(function(i){
+                                if(typeof this.children !== 'undefined' && this.children.length > 0){
+                                    console.log(this.selector);
+                                    recursive(this.children);
+                                }
+                            });}
+                        console.log(tagArr);
+
                         return {
-                            html: JSON.stringify(tagVals)
+                            html: JSON.stringify(tagArr)
                         };
                     }
                     catch(ex){
