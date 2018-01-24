@@ -5,8 +5,13 @@
         function ($scope, Authentication, $http, $sce) {
             $scope.authentication = Authentication;
             var socket = io.connect();
+            var browserStorage = window.localStorage;
+
 
             $scope.init = function(){
+                var getItem = browserStorage.getItem('config');
+                var jsonData = JSON.parse(getItem);
+                $scope.configData = jsonData;
                 $scope.data = {};
                 $scope.logs = [];
                 $scope.crawlStatus = false;

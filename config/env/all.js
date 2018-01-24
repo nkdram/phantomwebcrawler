@@ -40,7 +40,8 @@ module.exports = {
                 //'public/lib/angular-esri-map/dist/angular-esri-map.js',
                 'public/lib/angular-ui-select/dist/select.min.js',
                 'public/lib/socket.io-client/socket.io.js',
-                '//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js'
+                '//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js',
+                'public/lib/angular-bootstrap-multiselect/dist/angular-bootstrap-multiselect.min.js'
             ]
         },
         css: [
@@ -88,7 +89,8 @@ module.exports = {
                // 'public/lib/angular-esri-map/dist/angular-esri-map.js',
                 'public/lib/angular-ui-select/dist/select.min.js',
                 'public/lib/socket.io-client/socket.io.js',
-                '//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js'
+                '//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js',
+                'public/lib/angular-bootstrap-multiselect/dist/angular-bootstrap-multiselect.min.js'
             ]
         },
         css: [

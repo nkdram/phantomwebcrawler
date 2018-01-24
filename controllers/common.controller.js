@@ -88,3 +88,11 @@ exports.getErrorMessage = function (err) {
 
     return message;
 };
+
+exports.convertXmltoJson = function (dataUrl, callback) {
+    var parseString = require('xml2js').parseString;
+    var buffer = new Buffer(dataUrl.split(",")[1], 'base64');
+    parseString(buffer, function(err, result) {
+        callback(err, result);
+    });
+};

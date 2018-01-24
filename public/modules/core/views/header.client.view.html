@@ -8,22 +8,29 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="/">Web Crawler</a>
+            <a class="navbar-brand logo" href="#!/dashboard">
+                <img src="http://www.versusmind.eu/sites/default/files/logoVersus_1024_0_0.png" alt="Accueil" class="">
+                <span> Sitecore Migration Tool</span>
+            </a>
         </div>
 
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1" >
             <ul class="nav navbar-nav" ng-if="menu">
                 <li ><a href="#!/dashboard">Dashboard</a></li>
-                <!--<li><a href="#!/products">Product Upload</a></li>
-                <li><a href="#!/find">Find</a></li>-->
+                <!--<li><a href="#!/find">Find</a></li>-->
             </ul>
             <ul class="nav navbar-nav pull-right" ng-if="!menu">
+                <li ><a href="#!/dashboard">Dashboard</a></li>
+                <li><a href="#!/configuresite">Configure Site</a></li>
+            </ul>
+            <!--<ul class="nav navbar-nav pull-right" ng-if="!menu">
                 <li class="signup" ><a href="#!/signup">Sign-up</a></li>
+
             </ul>
             <ul class="nav navbar-nav pull-right" ng-if="menu">
                 <li class="signup"><a ng-click="signout()">Sign-Out</a></li>
-            </ul>
+            </ul>-->
         </div><!-- /.navbar-collapse -->
     </div><!-- /.container-fluid -->
 </nav>

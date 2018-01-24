@@ -13,12 +13,26 @@
                                         name="clearcrawl" ng-click="clearCrawl()"
                                         class="btn btn-warning pull-right">Clear Crawl</button>
                                 <br style="clear:both">
-                                <h3 style="margin-bottom: 25px; text-align: center;">Enter URL to Crawl</h3>
-
-                                <div class="form-group">
-                                    <input type="text" class="form-control" id="url" name="url" ng-model="data.url"
-                                           placeholder="Page Url" required>
+                                <h3 style="margin-bottom: 25px; text-align: center;">Crawl Urls</h3>
+                                <div id="tab" class="btn-group" data-toggle="buttons-radio">
+                                    <a href="#singleUrl" class="btn" data-toggle="tab">Specific Page</a>
+                                    <a href="#multiUrl" class="btn" data-toggle="tab">Multiple Pages</a>
                                 </div>
+
+                                <div class="tab-content">
+                                    <div class="tab-pane active" id="singleUrl">
+                                        <div class="form-group">
+
+                                            <input type="text" class="form-control" id="url" name="url" ng-model="data.url"
+                                               placeholder="Page Url" required>
+                                         </div>
+                                    </div>
+                                    <div class="tab-pane" id="multiUrl">
+                                        <multiselect ng-model="data.selectedUrls" options="configData.siteUrls" show-search="true">
+                                        </multiselect>
+                                    </div>
+                                </div>
+
                                 <div class="form-group">
                                     <textarea type="text" class="form-control" id="selector" name="selector" ng-model="data.selector"
                                            placeholder="Type Json" ng-blur="focusOut()"  required></textarea>

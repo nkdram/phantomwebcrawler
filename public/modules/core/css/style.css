@@ -1,8 +1,10 @@
 
-.mid-section
-{
-    padding-top: 40px;
+.mid-section {
+    padding-top: 60px;
+}
 
+nav.navbar{
+    height: 70px;
 }
 
 .signup
@@ -11,6 +13,34 @@
 
 }
 
+.logo{
+    float: left;
+    max-width: 400px;
+    width: 100%;
+    margin-left: 50px;
+    /*margin-top: 15px;*/
+    margin-bottom: 6px;
+}
+
+.logo img {
+    width: 40%;
+    float: left;
+    position: relative;
+    padding-right: 10px;
+}
+
+.logo span {
+    width: 50%;
+    float: left;
+    position: relative;
+    margin-top: 10px;
+    color: #8B8D8E;
+    font-size: 15px;
+}
+
+.navbar-default .navbar-collapse, .navbar-default .navbar-form{
+    margin-top: 15px;
+}
 
 .donateBlood {
     position: absolute;
@@ -28,3 +58,9 @@
     opacity: 0.75;
     font-size: 0.9em;
 }
+.tab-content{
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+label.file-upload{position:relative;overflow:hidden}label.file-upload input[type=file]{position:absolute;top:0;right:0;min-width:100%;min-height:100%;font-size:100px;text-align:right;filter:alpha(opacity=0);opacity:0;outline:0;background:#fff;cursor:inherit;display:block}

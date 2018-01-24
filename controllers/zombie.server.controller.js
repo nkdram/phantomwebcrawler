@@ -46,128 +46,153 @@ exports.crawlUsingZombie = function(req,res){
 exports.crawlUsingSocket = function(data, socket, callBack){
     var async = require('async');
     const Browser = require('phantom');
+    var msSql = require('../controllers/mssql.controller');
 
-    socket.emit('log',{message: 'Emulating Browser'});
-    socket.emit('log',{message: 'Opening Browser'});
-    Browser.create(['--ignore-ssl-errors=no'], {logLevel: 'error'})
-        .then(function (instance) {
-            var processId = instance.process.pid;
-            console.log("===================> instance: ", processId);
-            var phantom = instance;
-            var pageIns = null;
-            phantom.createPage().then(function (page,error) {
-                var url = data.url;
-                socket.emit('log',{message: 'Opening Page'});
-                pageIns = page;
-                return page.open(url);
-            }).catch(function(e) {
-                socket.emit('log',{message: e});
-            }).then(function(cp){
-               return pageIns.includeJs("http://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js");
-                //return pageIns.property('content');
-            }).catch(function(e) {
-                socket.emit('log',{message: e});
-            }).then(function(jp){
+    msSql.testConnection({},socket,function(result){
+        if(!result.status) {
+            socket.emit('log', {message: 'DB Connection Failed'});
+            socket.emit('log', {message: 'Crawl Done'});
+        }
+        else
+        {
+            socket.emit('log',{message: 'Emulating Browser'});
+            socket.emit('log',{message: 'Opening Browser'});
 
-                function evaluate(page, func) {
-                    var args = [].slice.call(arguments, 2);
-                    var fn = "function() { return (" + func.toString() + ").apply(this, " + JSON.stringify(args) + ");}";
-                    return page.evaluate(fn);
-                }
+            Browser.create(['--ignore-ssl-errors=no'], {logLevel: 'error'})
+                .then(function (instance) {
+                    var processId = instance.process.pid;
+                    console.log("===================> instance: ", processId);
+                    var phantom = instance;
+                    var pageIns = null;
+                    phantom.createPage().then(function (page,error) {
+                        var url = data.url;
+                        socket.emit('log',{message: 'Opening Page'});
+                        pageIns = page;
+                        return page.open(url);
+                    }).catch(function(e) {
+                        socket.emit('log',{message: e});
+                    }).then(function(cp){
+                        return pageIns.includeJs("http://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js");
+                        //return pageIns.property('content');
+                    }).catch(function(e) {
+                        socket.emit('log',{message: e});
+                    }).then(function(jp){
 
-                evaluate(pageIns, function(sel) {
-                    // this code has now has access to foo
-                    //var json = $.parseJSON(sel);
-                    //var tagVals = [];
-                    try {
-                        var data = $.parseJSON(sel);
-                        var tagArr = [];
-                        var tagData = [];
-                        function tags(m, parentTag, index){
-                            var tags = parentTag!=undefined ? $(parentTag).find(m.selector) : $(m.selector);
-                            for(var i=0;i<tags.length;i++){
-                                var attributes = m.attr ? m.attr.split(','): [];
-                                var attrVals = [];
-                                for(var cnt = 0; cnt<attributes.length; cnt++){
-                                    attrVals.push($(tags[i]).attr(attributes[cnt]));
-                                }
-                                if(index == undefined)
-                                {
-                                    tagArr.push({
-                                        selector : m.selector,
-                                        html : (m.html && m.html == true ? $(tags[i]).html() : ""),
-                                        attributes: attrVals,
-                                        children: []
-                                    });
-                                }
-                                else{
-                                    tagArr[index].children.push({
-                                        selector : m.selector,
-                                        html : (m.html && m.html == true ? $(tags[i]).html() : ""),
-                                        attributes: attrVals,
-                                        children: []
-                                    })
-                                }
-                                if(parentTag == undefined)
-                                    tagData.push($(tags[i]));
-                            }
+                        function evaluate(page, func) {
+                            var args = [].slice.call(arguments, 2);
+                            var fn = "function() { return (" + func.toString() + ").apply(this, " + JSON.stringify(args) + ");}";
+                            return page.evaluate(fn);
                         }
 
-                        $(data).each(function(index){
-                            var flevel = this.children;
-                            var root = this;
-                            tags(root);
-                            console.log(this.selector);
-                            $(flevel).each(function(i){
-                                console.log(this.selector);
-                                var parent = this;
-                                for(var tI = 0; tI< tagData.length; tI++)
-                                {
-                                    tags(parent, tagData[tI],tI);
-                                    //print the first level records
-                                    if(typeof this.children !== 'undefined' && this.children.length > 0){
-                                        var slevel = this.children;
-                                        $(slevel).each(function(i){
-                                            console.log(this.selector);
-                                            this.selector = parent.selector + " > " + this.selector;
-                                            tags(this, tagData[tI],tI);
-                                            recursive(slevel);
-                                        });
+                        evaluate(pageIns, function(sel) {
+                            try {
+                                var data = $.parseJSON(sel);
+                                var tagArr = [];
+                                var tagData = [];
+                                function tags(m, parentTag, index){
+                                    var tags = parentTag!=undefined ? $(parentTag).find(m.selector) : $(m.selector);
+                                    for(var i=0;i<tags.length;i++){
+                                        var attributes = m.attr ? m.attr.split(','): [];
+                                        var attrVals = [];
+                                        for(var cnt = 0; cnt<attributes.length; cnt++){
+                                            attrVals.push($(tags[i]).attr(attributes[cnt]));
+                                        }
+                                        if(index == undefined)
+                                        {
+                                            tagArr.push({
+                                                columnName: m.columnName,
+                                                selector : m.selector,
+                                                html : (m.html && m.html == true ? $(tags[i]).html() : $(tags[i]).text()),
+                                                attributes: attrVals,
+                                                unique: m.unique,
+                                                children: []
+                                            });
+                                        }
+                                        else{
+                                            tagArr[index].children.push({
+                                                columnName: m.columnName,
+                                                selector : m.selector,
+                                                html : (m.html && m.html == true ? $(tags[i]).html() : $(tags[i]).text()),
+                                                attributes: attrVals,
+                                                unique: m.unique,
+                                                children: []
+                                            })
+                                        }
+                                        if(parentTag == undefined)
+                                            tagData.push($(tags[i]));
                                     }
                                 }
 
-                            });});
-
-                        function recursive(data){
-                            $(data).each(function(i){
-                                if(typeof this.children !== 'undefined' && this.children.length > 0){
+                                $(data).each(function(index){
+                                    var flevel = this.children;
+                                    var root = this;
+                                    tags(root);
                                     console.log(this.selector);
-                                    recursive(this.children);
-                                }
-                            });}
-                        console.log(tagArr);
+                                    $(flevel).each(function(i){
+                                        console.log(this.selector);
+                                        var parent = this;
+                                        for(var tI = 0; tI< tagData.length; tI++)
+                                        {
+                                            tags(parent, tagData[tI],tI);
+                                            //print the first level records
+                                            if(typeof this.children !== 'undefined' && this.children.length > 0){
+                                                var slevel = this.children;
+                                                $(slevel).each(function(i){
+                                                    console.log(this.selector);
+                                                    this.selector = parent.selector + " > " + this.selector;
+                                                    tags(this, tagData[tI],tI);
+                                                    recursive(slevel);
+                                                });
+                                            }
+                                        }
 
-                        return {
-                            html: JSON.stringify(tagArr)
-                        };
-                    }
-                    catch(ex){
-                        return {
-                            html: ex
-                        };
-                    }
+                                    });});
 
-                }, data.selector).then(function(result) {
-                    socket.emit('log',{message: 'Crawl Done'});
-                    callBack({
-                        message: 'Crawl Done',
-                        html: result.html
+                                function recursive(data){
+                                    $(data).each(function(i){
+                                        if(typeof this.children !== 'undefined' && this.children.length > 0){
+                                            console.log(this.selector);
+                                            recursive(this.children);
+                                        }
+                                    });}
+                                console.log(tagArr);
+
+                                return {
+                                    html: JSON.stringify(tagArr)
+                                };
+                            }
+                            catch(ex){
+                                return {
+                                    html: ex
+                                };
+                            }
+
+                        }, data.selector).then(function(result) {
+                            socket.emit('log',{message: 'Inserting the records'});
+                            //Insert in SQL Server
+                            console.log(result.html);
+                            msSql.insertRecords(JSON.parse(result.html), data.url,socket,function(status){
+                                socket.emit('log',{message: 'Crawl Done'});
+                                callBack({
+                                    message: 'Crawl Done',
+                                    html: result.html
+                                });
+                                phantom.exit();
+                            });
+
+                        });
+
+
                     });
-                    phantom.exit();
                 });
+        }
+    });
+};
 
 
-            });
-        });
-
+exports.convertXmltoJson = function(data, socket, callBack){
+    var common = require('../controllers/common.controller');
+    common.convertXmltoJson(data, function(err, result) {
+        callBack(err, result);
+    });
 };

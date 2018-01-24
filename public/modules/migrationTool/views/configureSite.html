@@ -1,0 +1,55 @@
+<section ng-controller="MigrationToolController" ng-init="init()">
+    <div class="row">
+
+        <div class="col-md-10 col-md-offset-1">
+            <div class="content-box">
+                <!--<h2> Crawl URL</h2>-->
+                <div class="row">
+                    <div class="col-md-6 col-md-offset-3">
+                        <div class="form-area">
+                            <form id="formupload" role="form" ng-submit="Config()" class="signin form-horizontal"
+                                  enctype="multipart/form-data">
+                                <button type="button" id="clearcrawl" ng-show="html.rawHtml"
+                                        name="clearcrawl" ng-click="clearCrawl()"
+                                        class="btn btn-warning pull-right">Clear Config</button>
+                                <br style="clear:both">
+                                <h3 style="margin-bottom: 25px; text-align: center;">Configure Site</h3>
+                                <div class="form-group">
+                                    <input type="text" class="form-control" id="url" name="url" ng-model="data.url"
+                                           placeholder="Site Url" required>
+                                </div>
+                                <div class="form-group">
+                                        <fieldset>
+                                            <input type="file" name="xmlFile" accept='text/xml' id="xmlFile" class="form-control" placeholder="Upload Sitemap" fileread="data.xml">
+                                            <!--<div class="form-actions">
+                                                <button type="submit" class="btn btn-large btn-primary" ng-disabled="isDisabled"
+                                                        ng-model="isDisabled">Upload Sitemap
+                                                </button>
+                                            </div>-->
+                                        </fieldset>
+                                </div>
+                                <div class="form-group">
+                                    <input type="text" class="form-control" id="scUrl" name="scUrl" ng-model="data.scUrl"
+                                           placeholder="Sitecore Url" required>
+
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-md-6">
+                                        <input type="text" class="form-control" id="scUsername" name="scUsername" ng-model="data.scUsername"
+                                           placeholder="User Name" required>
+                                    </div>
+                                    <div class="col-md-6">
+                                     <input type="password" class="form-control" id="scPassword" name="scPassword" ng-model="data.scPassword"
+                                           placeholder="Password" required>
+                                    </div>
+                                </div>
+                                <button type="submit" id="crawlsite" name="crawlsite"
+                                        class="btn btn-primary pull-right">Configure Details</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

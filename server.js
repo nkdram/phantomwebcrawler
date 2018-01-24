@@ -28,6 +28,13 @@ io.on('connection', function(socket) {
             socket.emit('crawlDone',{ result: result });
         });
     });
+
+    socket.on('convertToJson', function(data) {
+        var crawler = require('./controllers/zombie.server.controller');
+        crawler.convertXmltoJson(data, socket, function(err, result){
+            socket.emit('conversionDone',{ result: result });
+        });
+    });
 });
 
 

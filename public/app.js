@@ -25,7 +25,8 @@ var ApplicationConfiguration = (function () {
         'dialogs.main',
         'ngTable',
         'esri.map',
-        'ui.select'
+        'ui.select',
+        'btorfs.multiselect'
     ];
 
     // Add a new vertical module
