@@ -42,6 +42,12 @@ nav.navbar{
     margin-top: 15px;
 }
 
+.dropdown-menu{
+    overflow: scroll;
+    max-height: 400px;
+    display: block;
+}
+
 .donateBlood {
     position: absolute;
     z-index: 100;

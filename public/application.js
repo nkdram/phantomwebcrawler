@@ -10,7 +10,12 @@ angular.module(ApplicationConfiguration.applicationModuleName).config(['$locatio
     }
 ]);
 
-
+angular.module(ApplicationConfiguration.applicationModuleName).config(function (hljsServiceProvider) {
+    hljsServiceProvider.setOptions({
+        // replace tab with 4 spaces
+        tabReplace: '    '
+    });
+});
 //angular.module(ApplicationConfiguration.applicationModuleName).constant('moment', moment);
 
 //Then define the init function for starting up the application

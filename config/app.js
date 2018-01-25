@@ -28,7 +28,8 @@ module.exports =function(){
 // all environments
     app.set('port', process.env.PORT || 8097);
 
-     app.locals.title = 'Web Crawler';
+     app.locals.title = 'Versusmind | Sitcore Migration Tool';
+     app.locals.favicon ='assets/modules/core/img/favicon.ico_0_0.png';
 
     app.locals.jsFiles = config.getJavaScriptAssets();
     app.locals.cssFiles = config.getCSSAssets();
@@ -61,9 +62,6 @@ module.exports =function(){
     app.use(passport.initialize());
     app.use(passport.session());
 
-
-    //app.locals.secure = config.secure;
-
     // parse application/json
     app.use(bodyParser.json());
 
@@ -73,35 +71,10 @@ module.exports =function(){
     // parse multipart/form-data
     app.use(multer({ dest: './uploads/' }));
 
-    /*app.post('/fileupload', upload.single('product'), function (req, res, next) {
-        next();
-    });*/
-
     app.use('/assets', express.static(path.resolve('./public')));
 
     // Enable jsonp
     app.enable('jsonp callback');
-
-    /*var sessionOptions = {
-     name :'Ws3Bs-aMeEx',
-     rolling : true,
-     saveUninitialized: false,
-     resave: false,
-     secret: config.sessionSecret,
-     cookie: {
-     path: '/',
-     httpOnly: true,
-     maxAge : config.sessionExpiration
-     },
-     key: config.sessionKey,
-     store: new RedisStore( redisOpts ),
-     proxy: true,
-     unset : 'destroy'
-     };
-
-
-     app.use(session(sessionOptions));*/
-
 
     var env = process.env.NODE_ENV || 'development';
 
@@ -153,12 +126,7 @@ module.exports =function(){
         });
     });
 
-    /**
-     * Start Server
-     */
-    /*app.listen(app.get('port'), function(){
-        console.log('Express server on port ' + app.get('port'));
-    });*/
+
     return app;
 };
 

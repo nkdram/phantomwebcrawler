@@ -20,7 +20,8 @@ module.exports = {
                 'public/lib/angular-busy/dist/angular-busy.min.css',
                 'public/lib/ng-table/dist/ng-table.css',
                 'public/lib/angular-ui-select/dist/select.min.css',
-                '//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css'
+                //'//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css'
+                '//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.9.1/styles/github.min.css'
             ],
             js: [
                 'public/lib/angular/angular.js',
@@ -40,7 +41,8 @@ module.exports = {
                 //'public/lib/angular-esri-map/dist/angular-esri-map.js',
                 'public/lib/angular-ui-select/dist/select.min.js',
                 'public/lib/socket.io-client/socket.io.js',
-                '//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js',
+                '//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.9.1/highlight.min.js',
+                'public/lib/angular-highlightjs/build/angular-highlightjs.min.js',
                 'public/lib/angular-bootstrap-multiselect/dist/angular-bootstrap-multiselect.min.js'
             ]
         },
@@ -69,7 +71,7 @@ module.exports = {
                 'public/lib/angular-loading-bar/build/loading-bar.min.css',
                 'public/lib/bootstrap-daterangepicker/daterangepicker.css',
                 'public/lib/angular-ui-select/dist/select.min.css',
-                '//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css'
+                '//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.9.1/styles/github.min.css'
             ],
             js: [
                 'public/lib/blob-polyfill/blob.min.js',
@@ -89,8 +91,9 @@ module.exports = {
                // 'public/lib/angular-esri-map/dist/angular-esri-map.js',
                 'public/lib/angular-ui-select/dist/select.min.js',
                 'public/lib/socket.io-client/socket.io.js',
-                '//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js',
-                'public/lib/angular-bootstrap-multiselect/dist/angular-bootstrap-multiselect.min.js'
+                'public/lib/angular-bootstrap-multiselect/dist/angular-bootstrap-multiselect.min.js',
+                '//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.9.1/highlight.min.js',
+                'public/lib/angular-highlightjs/build/angular-highlightjs.min.js'
             ]
         },
         css: [

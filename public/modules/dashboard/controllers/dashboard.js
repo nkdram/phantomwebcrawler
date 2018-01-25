@@ -59,6 +59,7 @@
                 var obj = JSON.parse($scope.data.selector);
                 var pretty = JSON.stringify(obj, undefined, 4);
                 $scope.data.selector = pretty;
+                $scope.focusTextArea = false;
             };
 
             $scope.initJSON = function() {
